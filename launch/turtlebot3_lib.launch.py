@@ -17,13 +17,12 @@
 # Authors: Joep Tool
 
 import os
-
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
-
+from launch_ros.actions import Node
 
 def generate_launch_description():
     # Get paths to necessary directories and files
@@ -56,12 +55,20 @@ def generate_launch_description():
         )
     )
 
-    # Include the robot state publisher
-    robot_state_publisher_cmd = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(launch_file_dir, 'robot_state_publisher.launch.py')
-        ),
-        launch_arguments={'use_sim_time': use_sim_time}.items()
+    # Include the robot state publisher to publish transforms based on the URDF
+    urdf_path = os.path.join(
+        get_package_share_directory('turtlebot3_description'),
+        'urdf',
+        'turtlebot3_waffle_pi.urdf'
+    )
+    
+    robot_state_publisher_cmd = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        name='robot_state_publisher',
+        output='screen',
+        parameters=[{'use_sim_time': use_sim_time}],
+        arguments=[urdf_path]
     )
 
     # Include the spawn turtlebot command
@@ -75,11 +82,36 @@ def generate_launch_description():
         }.items()
     )
 
+    # Include the navigation parameters for TurtleBot3 Waffle Pi
+    nav_param_file = os.path.join(
+        get_package_share_directory('turtlebot3_navigation2'),
+        'param',
+        'waffle_pi.yaml'  # Ensure this matches your YAML file name
+    )
+
+    nav_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory('nav2_bringup'), 'launch', 'navigation_launch.py')
+        ),
+        launch_arguments={'params_file': nav_param_file}.items()
+    )
+
+    # Temporary Static Transform Publisher: odom -> base_link
+    static_transform_publisher_cmd = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='static_tf_pub_odom_base_link',
+        output='screen',
+        arguments=['0', '0', '0', '0', '0', '0', 'odom', 'base_link']
+    )
+
     # Create and populate the launch description
     ld = LaunchDescription()
     ld.add_action(gzserver_cmd)
     ld.add_action(gzclient_cmd)
     ld.add_action(robot_state_publisher_cmd)
     ld.add_action(spawn_turtlebot_cmd)
+    ld.add_action(nav_cmd)  # Add the navigation command
+    ld.add_action(static_transform_publisher_cmd)  # Add static transform publisher for debugging
 
     return ld

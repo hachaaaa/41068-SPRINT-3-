@@ -1,0 +1,120 @@
+\hypertarget{namespaceoverlay__map}{}\doxysection{overlay\+\_\+map Namespace Reference}
+\label{namespaceoverlay__map}\index{overlay\_map@{overlay\_map}}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+string \mbox{\hyperlink{namespaceoverlay__map_a34eeec4e84d191fd162df168094023c0}{gazebo\+\_\+map\+\_\+path}} = \char`\"{}/home/student/map.\+png\char`\"{}
+\item 
+\mbox{\hyperlink{namespaceoverlay__map_a22c0ce2fdf8b285c0d7fde45392883d8}{gazebo\+\_\+map}} = cv2.\+imread(\mbox{\hyperlink{namespaceoverlay__map_a34eeec4e84d191fd162df168094023c0}{gazebo\+\_\+map\+\_\+path}}, cv2.\+IMREAD\+\_\+\+COLOR)
+\item 
+string \mbox{\hyperlink{namespaceoverlay__map_af9a19684a68b78b63f48a389a53498f9}{slam\+\_\+map\+\_\+path}} = \char`\"{}/home/student/ros2\+\_\+ws/src/sprint3/maps/my\+\_\+map.\+pgm\char`\"{}
+\item 
+\mbox{\hyperlink{namespaceoverlay__map_a6aec5d8f389f0cfcf7193d81ed3c1fd6}{slam\+\_\+map}} = cv2.\+imread(\mbox{\hyperlink{namespaceoverlay__map_af9a19684a68b78b63f48a389a53498f9}{slam\+\_\+map\+\_\+path}}, cv2.\+IMREAD\+\_\+\+COLOR)
+\item 
+float \mbox{\hyperlink{namespaceoverlay__map_a3132c9f3929bda3fc0b2f5af9041c5a7}{scaling\+\_\+factor}} = 0.\+8
+\item 
+float \mbox{\hyperlink{namespaceoverlay__map_a7403e930e2187d4cdb1d4608fd714a4e}{y\+\_\+stretch\+\_\+factor}} = 2.\+4
+\item 
+\mbox{\hyperlink{namespaceoverlay__map_aeb1b6d1f59e6170589cfa6756189d075}{new\+\_\+width}} = int(gazebo\+\_\+map.\+shape\mbox{[}1\mbox{]} $\ast$ \mbox{\hyperlink{namespaceoverlay__map_a3132c9f3929bda3fc0b2f5af9041c5a7}{scaling\+\_\+factor}})
+\item 
+\mbox{\hyperlink{namespaceoverlay__map_a9cc1dc0ace8bd2abd3e2fafd3ce4fd4b}{new\+\_\+height}} = int(gazebo\+\_\+map.\+shape\mbox{[}0\mbox{]} $\ast$ \mbox{\hyperlink{namespaceoverlay__map_a3132c9f3929bda3fc0b2f5af9041c5a7}{scaling\+\_\+factor}} $\ast$ \mbox{\hyperlink{namespaceoverlay__map_a7403e930e2187d4cdb1d4608fd714a4e}{y\+\_\+stretch\+\_\+factor}})
+\item 
+tuple \mbox{\hyperlink{namespaceoverlay__map_aa3eefcef0141d19dcfba5a1c960f9dd3}{x\+\_\+offset}} = (gazebo\+\_\+map.\+shape\mbox{[}1\mbox{]} -\/ \mbox{\hyperlink{namespaceoverlay__map_aeb1b6d1f59e6170589cfa6756189d075}{new\+\_\+width}}) // 2 + 25
+\item 
+tuple \mbox{\hyperlink{namespaceoverlay__map_afe24560caef5ad6ad19b679b69c89862}{y\+\_\+offset}} = (gazebo\+\_\+map.\+shape\mbox{[}0\mbox{]} -\/ \mbox{\hyperlink{namespaceoverlay__map_a9cc1dc0ace8bd2abd3e2fafd3ce4fd4b}{new\+\_\+height}}) // 2
+\item 
+\mbox{\hyperlink{namespaceoverlay__map_a2f82869cc91ce648e4ac65d24dfcd3f2}{resized\+\_\+slam\+\_\+map}} = cv2.\+resize(\mbox{\hyperlink{namespaceoverlay__map_a6aec5d8f389f0cfcf7193d81ed3c1fd6}{slam\+\_\+map}}, (\mbox{\hyperlink{namespaceoverlay__map_aeb1b6d1f59e6170589cfa6756189d075}{new\+\_\+width}}, \mbox{\hyperlink{namespaceoverlay__map_a9cc1dc0ace8bd2abd3e2fafd3ce4fd4b}{new\+\_\+height}}))
+\item 
+\mbox{\hyperlink{namespaceoverlay__map_a83a07ce01198d9828ac5e75b30e700d6}{canvas}} = np.\+zeros\+\_\+like(\mbox{\hyperlink{namespaceoverlay__map_a22c0ce2fdf8b285c0d7fde45392883d8}{gazebo\+\_\+map}})
+\item 
+\mbox{\hyperlink{namespaceoverlay__map_ac245e6fce738747655155cc1bff9868f}{overlay}} = cv2.\+add\+Weighted(\mbox{\hyperlink{namespaceoverlay__map_a22c0ce2fdf8b285c0d7fde45392883d8}{gazebo\+\_\+map}}, 0.\+7, \mbox{\hyperlink{namespaceoverlay__map_a83a07ce01198d9828ac5e75b30e700d6}{canvas}}, 0.\+3, 0)
+\item 
+string \mbox{\hyperlink{namespaceoverlay__map_a689144a98d579d79fe711c5f579649b4}{output\+\_\+path}} = \char`\"{}/home/student/ros2\+\_\+ws/src/sprint3/maps/overlay.\+png\char`\"{}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceoverlay__map_a83a07ce01198d9828ac5e75b30e700d6}\label{namespaceoverlay__map_a83a07ce01198d9828ac5e75b30e700d6}} 
+\index{overlay\_map@{overlay\_map}!canvas@{canvas}}
+\index{canvas@{canvas}!overlay\_map@{overlay\_map}}
+\doxysubsubsection{\texorpdfstring{canvas}{canvas}}
+{\footnotesize\ttfamily overlay\+\_\+map.\+canvas = np.\+zeros\+\_\+like(\mbox{\hyperlink{namespaceoverlay__map_a22c0ce2fdf8b285c0d7fde45392883d8}{gazebo\+\_\+map}})}
+
+\mbox{\Hypertarget{namespaceoverlay__map_a22c0ce2fdf8b285c0d7fde45392883d8}\label{namespaceoverlay__map_a22c0ce2fdf8b285c0d7fde45392883d8}} 
+\index{overlay\_map@{overlay\_map}!gazebo\_map@{gazebo\_map}}
+\index{gazebo\_map@{gazebo\_map}!overlay\_map@{overlay\_map}}
+\doxysubsubsection{\texorpdfstring{gazebo\_map}{gazebo\_map}}
+{\footnotesize\ttfamily overlay\+\_\+map.\+gazebo\+\_\+map = cv2.\+imread(\mbox{\hyperlink{namespaceoverlay__map_a34eeec4e84d191fd162df168094023c0}{gazebo\+\_\+map\+\_\+path}}, cv2.\+IMREAD\+\_\+\+COLOR)}
+
+\mbox{\Hypertarget{namespaceoverlay__map_a34eeec4e84d191fd162df168094023c0}\label{namespaceoverlay__map_a34eeec4e84d191fd162df168094023c0}} 
+\index{overlay\_map@{overlay\_map}!gazebo\_map\_path@{gazebo\_map\_path}}
+\index{gazebo\_map\_path@{gazebo\_map\_path}!overlay\_map@{overlay\_map}}
+\doxysubsubsection{\texorpdfstring{gazebo\_map\_path}{gazebo\_map\_path}}
+{\footnotesize\ttfamily string overlay\+\_\+map.\+gazebo\+\_\+map\+\_\+path = \char`\"{}/home/student/map.\+png\char`\"{}}
+
+\mbox{\Hypertarget{namespaceoverlay__map_a9cc1dc0ace8bd2abd3e2fafd3ce4fd4b}\label{namespaceoverlay__map_a9cc1dc0ace8bd2abd3e2fafd3ce4fd4b}} 
+\index{overlay\_map@{overlay\_map}!new\_height@{new\_height}}
+\index{new\_height@{new\_height}!overlay\_map@{overlay\_map}}
+\doxysubsubsection{\texorpdfstring{new\_height}{new\_height}}
+{\footnotesize\ttfamily overlay\+\_\+map.\+new\+\_\+height = int(gazebo\+\_\+map.\+shape\mbox{[}0\mbox{]} $\ast$ \mbox{\hyperlink{namespaceoverlay__map_a3132c9f3929bda3fc0b2f5af9041c5a7}{scaling\+\_\+factor}} $\ast$ \mbox{\hyperlink{namespaceoverlay__map_a7403e930e2187d4cdb1d4608fd714a4e}{y\+\_\+stretch\+\_\+factor}})}
+
+\mbox{\Hypertarget{namespaceoverlay__map_aeb1b6d1f59e6170589cfa6756189d075}\label{namespaceoverlay__map_aeb1b6d1f59e6170589cfa6756189d075}} 
+\index{overlay\_map@{overlay\_map}!new\_width@{new\_width}}
+\index{new\_width@{new\_width}!overlay\_map@{overlay\_map}}
+\doxysubsubsection{\texorpdfstring{new\_width}{new\_width}}
+{\footnotesize\ttfamily overlay\+\_\+map.\+new\+\_\+width = int(gazebo\+\_\+map.\+shape\mbox{[}1\mbox{]} $\ast$ \mbox{\hyperlink{namespaceoverlay__map_a3132c9f3929bda3fc0b2f5af9041c5a7}{scaling\+\_\+factor}})}
+
+\mbox{\Hypertarget{namespaceoverlay__map_a689144a98d579d79fe711c5f579649b4}\label{namespaceoverlay__map_a689144a98d579d79fe711c5f579649b4}} 
+\index{overlay\_map@{overlay\_map}!output\_path@{output\_path}}
+\index{output\_path@{output\_path}!overlay\_map@{overlay\_map}}
+\doxysubsubsection{\texorpdfstring{output\_path}{output\_path}}
+{\footnotesize\ttfamily string overlay\+\_\+map.\+output\+\_\+path = \char`\"{}/home/student/ros2\+\_\+ws/src/sprint3/maps/overlay.\+png\char`\"{}}
+
+\mbox{\Hypertarget{namespaceoverlay__map_ac245e6fce738747655155cc1bff9868f}\label{namespaceoverlay__map_ac245e6fce738747655155cc1bff9868f}} 
+\index{overlay\_map@{overlay\_map}!overlay@{overlay}}
+\index{overlay@{overlay}!overlay\_map@{overlay\_map}}
+\doxysubsubsection{\texorpdfstring{overlay}{overlay}}
+{\footnotesize\ttfamily overlay\+\_\+map.\+overlay = cv2.\+add\+Weighted(\mbox{\hyperlink{namespaceoverlay__map_a22c0ce2fdf8b285c0d7fde45392883d8}{gazebo\+\_\+map}}, 0.\+7, \mbox{\hyperlink{namespaceoverlay__map_a83a07ce01198d9828ac5e75b30e700d6}{canvas}}, 0.\+3, 0)}
+
+\mbox{\Hypertarget{namespaceoverlay__map_a2f82869cc91ce648e4ac65d24dfcd3f2}\label{namespaceoverlay__map_a2f82869cc91ce648e4ac65d24dfcd3f2}} 
+\index{overlay\_map@{overlay\_map}!resized\_slam\_map@{resized\_slam\_map}}
+\index{resized\_slam\_map@{resized\_slam\_map}!overlay\_map@{overlay\_map}}
+\doxysubsubsection{\texorpdfstring{resized\_slam\_map}{resized\_slam\_map}}
+{\footnotesize\ttfamily overlay\+\_\+map.\+resized\+\_\+slam\+\_\+map = cv2.\+resize(\mbox{\hyperlink{namespaceoverlay__map_a6aec5d8f389f0cfcf7193d81ed3c1fd6}{slam\+\_\+map}}, (\mbox{\hyperlink{namespaceoverlay__map_aeb1b6d1f59e6170589cfa6756189d075}{new\+\_\+width}}, \mbox{\hyperlink{namespaceoverlay__map_a9cc1dc0ace8bd2abd3e2fafd3ce4fd4b}{new\+\_\+height}}))}
+
+\mbox{\Hypertarget{namespaceoverlay__map_a3132c9f3929bda3fc0b2f5af9041c5a7}\label{namespaceoverlay__map_a3132c9f3929bda3fc0b2f5af9041c5a7}} 
+\index{overlay\_map@{overlay\_map}!scaling\_factor@{scaling\_factor}}
+\index{scaling\_factor@{scaling\_factor}!overlay\_map@{overlay\_map}}
+\doxysubsubsection{\texorpdfstring{scaling\_factor}{scaling\_factor}}
+{\footnotesize\ttfamily float overlay\+\_\+map.\+scaling\+\_\+factor = 0.\+8}
+
+\mbox{\Hypertarget{namespaceoverlay__map_a6aec5d8f389f0cfcf7193d81ed3c1fd6}\label{namespaceoverlay__map_a6aec5d8f389f0cfcf7193d81ed3c1fd6}} 
+\index{overlay\_map@{overlay\_map}!slam\_map@{slam\_map}}
+\index{slam\_map@{slam\_map}!overlay\_map@{overlay\_map}}
+\doxysubsubsection{\texorpdfstring{slam\_map}{slam\_map}}
+{\footnotesize\ttfamily overlay\+\_\+map.\+slam\+\_\+map = cv2.\+imread(\mbox{\hyperlink{namespaceoverlay__map_af9a19684a68b78b63f48a389a53498f9}{slam\+\_\+map\+\_\+path}}, cv2.\+IMREAD\+\_\+\+COLOR)}
+
+\mbox{\Hypertarget{namespaceoverlay__map_af9a19684a68b78b63f48a389a53498f9}\label{namespaceoverlay__map_af9a19684a68b78b63f48a389a53498f9}} 
+\index{overlay\_map@{overlay\_map}!slam\_map\_path@{slam\_map\_path}}
+\index{slam\_map\_path@{slam\_map\_path}!overlay\_map@{overlay\_map}}
+\doxysubsubsection{\texorpdfstring{slam\_map\_path}{slam\_map\_path}}
+{\footnotesize\ttfamily string overlay\+\_\+map.\+slam\+\_\+map\+\_\+path = \char`\"{}/home/student/ros2\+\_\+ws/src/sprint3/maps/my\+\_\+map.\+pgm\char`\"{}}
+
+\mbox{\Hypertarget{namespaceoverlay__map_aa3eefcef0141d19dcfba5a1c960f9dd3}\label{namespaceoverlay__map_aa3eefcef0141d19dcfba5a1c960f9dd3}} 
+\index{overlay\_map@{overlay\_map}!x\_offset@{x\_offset}}
+\index{x\_offset@{x\_offset}!overlay\_map@{overlay\_map}}
+\doxysubsubsection{\texorpdfstring{x\_offset}{x\_offset}}
+{\footnotesize\ttfamily int overlay\+\_\+map.\+x\+\_\+offset = (gazebo\+\_\+map.\+shape\mbox{[}1\mbox{]} -\/ \mbox{\hyperlink{namespaceoverlay__map_aeb1b6d1f59e6170589cfa6756189d075}{new\+\_\+width}}) // 2 + 25}
+
+\mbox{\Hypertarget{namespaceoverlay__map_afe24560caef5ad6ad19b679b69c89862}\label{namespaceoverlay__map_afe24560caef5ad6ad19b679b69c89862}} 
+\index{overlay\_map@{overlay\_map}!y\_offset@{y\_offset}}
+\index{y\_offset@{y\_offset}!overlay\_map@{overlay\_map}}
+\doxysubsubsection{\texorpdfstring{y\_offset}{y\_offset}}
+{\footnotesize\ttfamily int overlay\+\_\+map.\+y\+\_\+offset = (gazebo\+\_\+map.\+shape\mbox{[}0\mbox{]} -\/ \mbox{\hyperlink{namespaceoverlay__map_a9cc1dc0ace8bd2abd3e2fafd3ce4fd4b}{new\+\_\+height}}) // 2}
+
+\mbox{\Hypertarget{namespaceoverlay__map_a7403e930e2187d4cdb1d4608fd714a4e}\label{namespaceoverlay__map_a7403e930e2187d4cdb1d4608fd714a4e}} 
+\index{overlay\_map@{overlay\_map}!y\_stretch\_factor@{y\_stretch\_factor}}
+\index{y\_stretch\_factor@{y\_stretch\_factor}!overlay\_map@{overlay\_map}}
+\doxysubsubsection{\texorpdfstring{y\_stretch\_factor}{y\_stretch\_factor}}
+{\footnotesize\ttfamily float overlay\+\_\+map.\+y\+\_\+stretch\+\_\+factor = 2.\+4}
+

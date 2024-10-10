@@ -12,15 +12,15 @@ slam_map = cv2.imread(slam_map_path, cv2.IMREAD_COLOR)
 # Scaling factor to resize the SLAM map
 scaling_factor = 0.8  # change value to change size in x direction
 # Stretch factor for the y-axis 
-y_stretch_factor = 1.9  # greater than 1 to stretch, less than 1 to compress
+y_stretch_factor = 2.4  # greater than 1 to stretch, less than 1 to compress
 
 # Calculate new dimensions for the SLAM map
 new_width = int(gazebo_map.shape[1] * scaling_factor)
 new_height = int(gazebo_map.shape[0] * scaling_factor * y_stretch_factor)
 
  # Adjust offsets to center the resized SLAM map on the Gazebo map
-x_offset = (gazebo_map.shape[1] - new_width) // 2 + 80 # move image to right for better lineup  
-y_offset = (gazebo_map.shape[0] - new_height) // 2
+x_offset = (gazebo_map.shape[1] - new_width) // 2 + 25 # move image to right for better lineup  
+y_offset = (gazebo_map.shape[0] - new_height) // 2 
 
 # Ensure the offsets and dimensions are within valid range
 # accounts for if slam map is bigger than gazebo map

@@ -1,0 +1,120 @@
+\hypertarget{index_intro_sec}{}\doxysection{Introduction}\label{index_intro_sec}
+This documentation covers the Sprint 3 tasks focusing on SLAM and Path Planning in the ROS2 framework using the Turtle\+Bot3 Waffle Pi robot.
+
+The following sections provide an overview of how SLAM and Path Planning were implemented, as well as the challenges encountered and their solutions.\hypertarget{index_slam_intro_sec}{}\doxysection{SLO 3.\+2 -\/ SLAM in Gazebo Environment}\label{index_slam_intro_sec}
+SLAM (Simultaneous Localization and Mapping) is essential for enabling the robot to build a map of an unknown environment while tracking its position. For this project\+:
+\begin{DoxyItemize}
+\item I utilized the SLAM toolbox to generate a map using Turtle\+Bot3 in a simulated Gazebo world.
+\item The robot was controlled via teleoperation to explore and generate the map.
+\item The generated map was overlaid on the Gazebo ground truth map for validation.
+\end{DoxyItemize}\hypertarget{index_slam_steps}{}\doxysubsection{Steps to Run SLAM\+:}\label{index_slam_steps}
+
+\begin{DoxyItemize}
+\item {\bfseries{Terminal 1}}\+: Launch the Gazebo world with Turtle\+Bot3\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{source /opt/ros/humble/setup.bash}
+\DoxyCodeLine{source \string~/ros2\_ws/install/setup.bash}
+\DoxyCodeLine{export TURTLEBOT3\_MODEL=waffle\_pi}
+\DoxyCodeLine{ros2 launch sprint3 turtlebot3\_lib.launch.py}
+
+\end{DoxyCode}
+
+\item {\bfseries{Terminal 2}}\+: Teleoperate the robot using the keyboard\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{source /opt/ros/humble/setup.bash}
+\DoxyCodeLine{source \string~/ros2\_ws/install/setup.bash}
+\DoxyCodeLine{export TURTLEBOT3\_MODEL=waffle\_pi}
+\DoxyCodeLine{ros2 run turtlebot3\_teleop teleop\_keyboard}
+
+\end{DoxyCode}
+
+\item {\bfseries{Terminal 3}}\+: Start the SLAM toolbox for mapping\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{source /opt/ros/humble/setup.bash}
+\DoxyCodeLine{source \string~/ros2\_ws/install/setup.bash}
+\DoxyCodeLine{export TURTLEBOT3\_MODEL=waffle\_pi}
+\DoxyCodeLine{ros2 run slam\_toolbox sync\_slam\_toolbox\_node -\/-\/ros-\/args -\/p use\_sim\_time:=true}
+
+\end{DoxyCode}
+
+\item {\bfseries{Terminal 4}}\+: Visualize the mapping in RViz\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{rviz2 -\/d \string~/ros2\_ws/src/sprint3/rviz/slam\_mapping.rviz}
+
+\end{DoxyCode}
+
+\item {\bfseries{Terminal 5}}\+: Save the generated map\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ros2 run nav2\_map\_server map\_saver\_cli -\/f \string~/ros2\_ws/src/sprint3/maps/my\_map}
+
+\end{DoxyCode}
+
+\end{DoxyItemize}\hypertarget{index_slam_map_overlay}{}\doxysubsection{Overlaying Generated Map\+:}\label{index_slam_map_overlay}
+
+\begin{DoxyItemize}
+\item To overlay the generated map with the Gazebo ground truth map\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd \string~/ros2\_ws/src/sprint3}
+\DoxyCodeLine{python3 overlay\_map.py}
+
+\end{DoxyCode}
+
+\item To stop the python process, use\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ps aux | grep python}
+
+\end{DoxyCode}
+ Then kill the process by its PID.
+\end{DoxyItemize}\hypertarget{index_path_planning_sec}{}\doxysection{SLO 3.\+5 -\/ Path Planning in Gazebo Environment}\label{index_path_planning_sec}
+Path planning enables a robot to navigate from a specified start point to a goal while avoiding obstacles.
+
+{\bfseries{Steps to Execute Path Planning}}\+:
+\begin{DoxyItemize}
+\item {\bfseries{Set up the library Gazebo environment}}\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{export TURTLEBOT3\_MODEL=waffle\_pi}
+\DoxyCodeLine{source /opt/ros/humble/setup.bash}
+\DoxyCodeLine{source \string~/ros2\_ws/install/setup.bash}
+\DoxyCodeLine{ros2 launch sprint3 turtlebot3\_lib.launch.py}
+
+\end{DoxyCode}
+
+\item {\bfseries{Run the map server}} to load the generated map\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{export TURTLEBOT3\_MODEL=waffle\_pi}
+\DoxyCodeLine{source /opt/ros/humble/setup.bash}
+\DoxyCodeLine{source \string~/ros2\_ws/install/setup.bash}
+\DoxyCodeLine{ros2 run nav2\_map\_server map\_server -\/-\/ros-\/args -\/p yaml\_filename:=/home/student/ros2\_ws/src/sprint3/maps/my\_map.yaml}
+
+\end{DoxyCode}
+
+\item {\bfseries{Launch localization}} to estimate the robot\textquotesingle{}s position\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{export TURTLEBOT3\_MODEL=waffle\_pi}
+\DoxyCodeLine{source /opt/ros/humble/setup.bash}
+\DoxyCodeLine{source \string~/ros2\_ws/install/setup.bash}
+\DoxyCodeLine{ros2 launch nav2\_bringup localization\_launch.py map:=/home/student/ros2\_ws/src/sprint3/maps/my\_map.yaml}
+
+\end{DoxyCode}
+
+\item {\bfseries{Start the navigation stack}} to enable path planning\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{export TURTLEBOT3\_MODEL=waffle\_pi}
+\DoxyCodeLine{source /opt/ros/humble/setup.bash}
+\DoxyCodeLine{source \string~/ros2\_ws/install/setup.bash}
+\DoxyCodeLine{ros2 launch nav2\_bringup navigation\_launch.py use\_sim\_time:=true map:=/home/student/ros2\_ws/src/sprint3/maps/my\_map.yaml}
+
+\end{DoxyCode}
+
+\item {\bfseries{In RViz}}\+: Set the initial pose and goal using the 2D Pose Estimate and Navigation Goal tools\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{export TURTLEBOT3\_MODEL=waffle\_pi}
+\DoxyCodeLine{source \string~/ros2\_ws/install/setup.bash}
+\DoxyCodeLine{ros2 launch nav2\_bringup rviz\_launch.py}
+
+\end{DoxyCode}
+
+\end{DoxyItemize}\hypertarget{index_github_sec}{}\doxysection{Git\+Hub Repository}\label{index_github_sec}
+The source code for SLAM and Path Planning can be found in the repository below. It also contains additional project files and documentation generated by Doxygen.
+
+Git\+Hub Repository\+: \href{https://github.com/hachaaaa/41068-SPRINT-3-}{\texttt{ https\+://github.\+com/hachaaaa/41068-\/\+SPRINT-\/3-\/}} 
